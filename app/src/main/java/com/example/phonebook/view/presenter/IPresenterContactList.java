@@ -1,12 +1,12 @@
 package com.example.phonebook.view.presenter;
 
-import com.example.phonebook.controller.data.repository.callbacks.IPresenterAdapterContactsListener;
+import com.example.phonebook.view.presenter.adapterCallbacks.IPresenterAdapterContactsListener;
 import com.example.phonebook.model.ContactShortInfo;
-import com.example.phonebook.view.ui.activities.ActivityBase;
-
-import java.util.Observer;
+import com.example.phonebook.view.ui.activities.IViewContactList;
 
 public interface IPresenterContactList extends IBasePresenter {
+    void onCreate(IViewContactList activity);
+
     int getItemCount();
 
     void setAdapterListener(IPresenterAdapterContactsListener listenerPresenter);

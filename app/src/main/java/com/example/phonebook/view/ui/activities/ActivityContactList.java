@@ -15,30 +15,28 @@ import com.example.phonebook.R;
 import com.example.phonebook.controller.data.repository.IRepository;
 import com.example.phonebook.view.presenter.IPresenterContactList;
 import com.example.phonebook.view.ui.adapters.ContactListAdapter;
+import com.example.phonebook.view.ui.navigator.INavigator;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ActivityContactList extends ActivityBase implements IViewContactList{
     private static final int REQUEST_CODE_CONTACTS = 1;
 
     @Inject
+    INavigator navigator;
+    @Inject
     IRepository repository;
     @Inject
     IPresenterContactList presenterContactList;
 
-    @BindView(R.id.rvContactList)
     public RecyclerView rvContactList;
-    @BindView(R.id.export_button)
     public Button export_button;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        initViewsId();
 
         App.getComponent().inject(this);
 
@@ -48,8 +46,14 @@ public class ActivityContactList extends ActivityBase implements IViewContactLis
         }
 
         presenterContactList.onCreate(this);
+        navigator.set(this);
         initViews();
         setClickListeners();
+    }
+
+    private void initViewsId() {
+        rvContactList = findViewById(R.id.rvContactList);
+        export_button = findViewById(R.id.export_button);
     }
 
     private void setClickListeners() {
@@ -84,6 +88,11 @@ public class ActivityContactList extends ActivityBase implements IViewContactLis
                 Toast.makeText(this, R.string.please_grant_camera, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void setCustomTitle(String title) {
+        setTitle(title);
     }
 }
 

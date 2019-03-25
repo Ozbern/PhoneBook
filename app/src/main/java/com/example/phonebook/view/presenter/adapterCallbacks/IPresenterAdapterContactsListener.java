@@ -1,4 +1,4 @@
-package com.example.phonebook.controller.data.repository.callbacks;
+package com.example.phonebook.view.presenter.adapterCallbacks;
 
 public interface IPresenterAdapterContactsListener {
     void onUpdate();

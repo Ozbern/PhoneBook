@@ -8,27 +8,33 @@ import com.example.phonebook.model.ContactFullInfo;
 import com.example.phonebook.view.ui.activities.ActivityBase;
 import com.example.phonebook.view.ui.activities.IViewContactDetails;
 
+import java.lang.ref.WeakReference;
 import java.util.Observable;
 
 import javax.inject.Inject;
 
 public class PresenterDetails implements IPresenterDetails {
     @Inject
+    WeakReference<App> appReference;
+    @Inject
     IRepository repository;
 
-    private ActivityBase activity;
+    private IViewContactDetails activity;
     private String contact_id;
     private String contact_phone;
-    private IViewContactDetails viewDependency;
 
     public PresenterDetails() {
         App.getComponent().inject(this);
     }
 
     @Override
-    public void onCreate(ActivityBase activity) {
+    public void onCreate(IViewContactDetails activity) {
         this.activity = activity;
-        activity.setCustomTitle(activity.getString(R.string.contact_details));
+        App app = appReference.get();
+        if (app == null) {
+            return;
+        }
+        activity.setCustomTitle(app.getString(R.string.contact_details));
         repository.request();
     }
 
@@ -48,17 +54,16 @@ public class PresenterDetails implements IPresenterDetails {
 
     private void refreshData() {
         ContactFullInfo contactFullInfo = repository.requestContactDetail(contact_id, contact_phone);
-        viewDependency.setName(contactFullInfo.getName());
-        viewDependency.setPhone(contactFullInfo.getPhoneNo());
-        viewDependency.setImageUri(contactFullInfo.getUri());
+        activity.setName(contactFullInfo.getName());
+        activity.setPhone(contactFullInfo.getPhoneNo());
+        activity.setImageUri(contactFullInfo.getUri());
 
 
     }
 
     @Override
-    public void setContactIdentifiers(IViewContactDetails viewDependency, String contact_id, String contact_phone) {
+    public void setContactIdentifiers(String contact_id, String contact_phone) {
         this.contact_id = contact_id;
         this.contact_phone = contact_phone;
-        this.viewDependency = viewDependency;
     }
 }

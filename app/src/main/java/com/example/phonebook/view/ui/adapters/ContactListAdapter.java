@@ -10,14 +10,11 @@ import android.widget.TextView;
 
 import com.example.phonebook.App;
 import com.example.phonebook.R;
-import com.example.phonebook.controller.data.repository.callbacks.IPresenterAdapterContactsListener;
+import com.example.phonebook.view.presenter.adapterCallbacks.IPresenterAdapterContactsListener;
 import com.example.phonebook.model.ContactShortInfo;
 import com.example.phonebook.view.presenter.IPresenterContactList;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
     @Inject
@@ -46,23 +43,27 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.whole_item)
         RelativeLayout whole_item;
-        @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.phone)
         TextView phone;
 
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            initViews(itemView);
             whole_item.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION)
                 presenterContactList.onListItemClick(pos);
             });
+        }
+
+        private void initViews(View itemView) {
+            whole_item = itemView.findViewById(R.id.whole_item);
+            name = itemView.findViewById(R.id.name);
+            phone = itemView.findViewById(R.id.phone);
+
         }
 
         public void setData(int position) {

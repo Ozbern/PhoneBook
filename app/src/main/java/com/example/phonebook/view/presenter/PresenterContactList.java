@@ -2,23 +2,24 @@ package com.example.phonebook.view.presenter;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.phonebook.App;
 import com.example.phonebook.R;
 import com.example.phonebook.controller.data.memorycache.ICacheContactList;
 import com.example.phonebook.controller.data.repository.IRepository;
-import com.example.phonebook.controller.data.repository.callbacks.IPresenterAdapterContactsListener;
+import com.example.phonebook.view.presenter.adapterCallbacks.IPresenterAdapterContactsListener;
 import com.example.phonebook.model.ContactShortInfo;
-import com.example.phonebook.view.ui.activities.ActivityBase;
 import com.example.phonebook.view.ui.activities.IViewContactList;
 import com.example.phonebook.view.ui.navigator.INavigator;
 
+import java.lang.ref.WeakReference;
 import java.util.Observable;
 
 import javax.inject.Inject;
 
 public class PresenterContactList implements IPresenterContactList {
+    @Inject
+    WeakReference<App> appReference;
     @Inject
     IRepository repository;
     @Inject
@@ -26,7 +27,7 @@ public class PresenterContactList implements IPresenterContactList {
     @Inject
     INavigator navigator;
 
-    private ActivityBase activity;
+    private IViewContactList activity;
     private IPresenterAdapterContactsListener listenerPresenter;
 
     public PresenterContactList() {
@@ -34,9 +35,13 @@ public class PresenterContactList implements IPresenterContactList {
     }
 
     @Override
-    public void onCreate(ActivityBase activity) {
+    public void onCreate(IViewContactList activity) {
         this.activity = activity;
-        activity.setCustomTitle(activity.getString(R.string.contact_list));
+        App app = appReference.get();
+        if (app == null) {
+            return;
+        }
+        activity.setCustomTitle(app.getString(R.string.contact_list));
         repository.request();
     }
 
@@ -76,10 +81,8 @@ public class PresenterContactList implements IPresenterContactList {
     public void onListItemClick(int position) {
         ContactShortInfo contactListItem = cacheContactList.getContactListItem(position);
         if (contactListItem != null) {
-            navigator.showContactDetailsActivity(activity, contactListItem.getId(), contactListItem.getPhoneNo());
+            navigator.showContactDetailsActivity(contactListItem.getId(), contactListItem.getPhoneNo());
         }
-
-
     }
 
     @Override

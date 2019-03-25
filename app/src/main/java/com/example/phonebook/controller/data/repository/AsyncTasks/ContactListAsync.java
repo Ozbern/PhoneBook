@@ -38,7 +38,7 @@ public class ContactListAsync extends AsyncTask<Void, Void, ArrayList<ContactSho
 
     @NonNull
     private ArrayList<ContactShortInfo> getContactList() {
-        if (appReference.get() == null || !hasPermissions()) {
+        if (!hasPermissions()) {
             return new ArrayList<>();
         }
 

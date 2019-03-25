@@ -16,20 +16,27 @@ public class Navigator implements INavigator {
     @Inject
     WeakReference<App> appReference;
 
+    private WeakReference<ActivityBase> refActivity;
+
+
     public Navigator() {
         App.getComponent().inject(this);
     }
 
     @Override
-    public void showContactDetailsActivity(ActivityBase activityBase, String contact_id, String phoneNumber) {
-        if (appReference.get() == null) {
-            return;
-        }
-        Intent intent = new Intent(activityBase, ActivityContactDetail.class);
+    public void showContactDetailsActivity(String contact_id, String phoneNumber) {
+        if (refActivity == null || refActivity.get() == null) return;
+
+        Intent intent = new Intent(refActivity.get(), ActivityContactDetail.class);
         Bundle bundle = new Bundle();
         bundle.putString(Constants.CONTACT_ID_EXTRA, contact_id);
         bundle.putString(Constants.CONTACT_PHONE_EXTRA, phoneNumber);
         intent.putExtras(bundle);
-        activityBase.startActivity(intent);
+        refActivity.get().startActivity(intent);
+    }
+
+    @Override
+    public void set(ActivityBase activity) {
+        this.refActivity = new WeakReference<>(activity);
     }
 }

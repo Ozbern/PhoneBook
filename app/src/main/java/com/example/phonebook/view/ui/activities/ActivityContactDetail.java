@@ -18,17 +18,11 @@ import com.example.phonebook.view.presenter.IPresenterDetails;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ActivityContactDetail extends ActivityBase implements IViewContactDetails{
     private static final int REQUEST_CODE_CONTACTS = 1;
 
-    @BindView(R.id.name)
     public TextView nameText;
-    @BindView(R.id.phone)
     public TextView phoneText;
-    @BindView(R.id.image)
     public ImageView imageView;
 
     @Inject
@@ -40,7 +34,7 @@ public class ActivityContactDetail extends ActivityBase implements IViewContactD
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        ButterKnife.bind(this);
+        initViewsId();
 
         App.getComponent().inject(this);
 
@@ -54,11 +48,17 @@ public class ActivityContactDetail extends ActivityBase implements IViewContactD
             String contact_id = extras.getString(Constants.CONTACT_ID_EXTRA);
             String contact_phone = extras.getString(Constants.CONTACT_PHONE_EXTRA);
             presenterContactDetails.onCreate(this);
-            presenterContactDetails.setContactIdentifiers(this, contact_id, contact_phone);
+            presenterContactDetails.setContactIdentifiers(contact_id, contact_phone);
         } else {
             finish();
         }
 
+    }
+
+    private void initViewsId() {
+        nameText = findViewById(R.id.name);
+        phoneText = findViewById(R.id.phone);
+        imageView = findViewById(R.id.image);
     }
 
     @Override
@@ -84,6 +84,11 @@ public class ActivityContactDetail extends ActivityBase implements IViewContactD
                 Toast.makeText(this, R.string.please_grant_camera, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void setCustomTitle(String title) {
+         setTitle(title);
     }
 
     @Override
