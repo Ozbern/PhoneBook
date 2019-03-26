@@ -30,4 +30,9 @@ public class CacheContactList extends CacheBase implements ICacheContactList {
         else
             return null;
     }
+
+    @Override
+    public ArrayList<ContactShortInfo> getContactList() {
+        return contactList;
+    }
 }

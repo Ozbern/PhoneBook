@@ -2,8 +2,10 @@ package com.example.phonebook.controller.data.repository.AsyncTasks;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.ContactsContract;
@@ -65,7 +67,11 @@ public class ContactListAsync extends AsyncTask<Void, Void, ArrayList<ContactSho
                         while (pCur.moveToNext()) {
                             String phoneNo = pCur.getString(pCur.getColumnIndex(
                                     ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            result.add(new ContactShortInfo(id, name, phoneNo));
+
+                            Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long
+                                    .parseLong(id));
+                            Uri uri = Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+                            result.add(new ContactShortInfo(id, name, phoneNo, uri));
                         }
                         pCur.close();
                     }

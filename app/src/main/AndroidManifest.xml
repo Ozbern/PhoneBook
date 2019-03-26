@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name="com.example.phonebook.App"
         android:allowBackup="true"
@@ -20,6 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.ui.activities.ActivityContactDetail" />
+        <service android:name=".service.ExportService"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

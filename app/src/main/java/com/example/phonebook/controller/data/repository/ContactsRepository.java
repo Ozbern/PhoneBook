@@ -15,6 +15,10 @@ import com.example.phonebook.controller.data.repository.AsyncTasks.ContactListAs
 import com.example.phonebook.model.ContactFullInfo;
 
 import java.lang.ref.WeakReference;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.inject.Inject;
 
@@ -47,7 +51,7 @@ public class ContactsRepository implements IRepository {
             return null;
         }
 
-        Uri u = getPhotoUri(filter_id);
+//        Uri uri = getPhotoUri(filter_id);
 
         ContentResolver cr = appReference.get().getContentResolver();
         Cursor pCur = cr.query(
@@ -64,7 +68,17 @@ public class ContactsRepository implements IRepository {
                     continue;
                 String name = pCur.getString(pCur.getColumnIndex(
                         ContactsContract.Contacts.DISPLAY_NAME));
-                result = new ContactFullInfo(filter_id, name, phoneNo, u);
+                String last_update = pCur.getString(pCur.getColumnIndex(
+                        ContactsContract.Contacts.CONTACT_LAST_UPDATED_TIMESTAMP));
+                String uriString = pCur.getString(pCur.getColumnIndex(
+                        ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+                URI uri = null;
+                try {
+                    uri = new URI(uriString);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                result = new ContactFullInfo(filter_id, name, phoneNo, uri, last_update);
                 break;
             }
             pCur.close();
@@ -74,26 +88,6 @@ public class ContactsRepository implements IRepository {
     }
 
     private Uri getPhotoUri(String filter_id) {
-        try {
-            Cursor cur = appReference.get().getContentResolver().query(
-                    ContactsContract.Data.CONTENT_URI,
-                    null,
-                    ContactsContract.Data.CONTACT_ID + "=" + filter_id + " AND "
-                            + ContactsContract.Data.MIMETYPE + "='"
-                            + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'", null,
-                    null);
-            if (cur != null) {
-                if (!cur.moveToFirst()) {
-                    return null; // no photo
-                }
-            } else {
-                return null; // error in cursor process
-            }
-            cur.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
         Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long
                 .parseLong(filter_id));
         return Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);

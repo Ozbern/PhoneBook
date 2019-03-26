@@ -55,6 +55,7 @@ public class PresenterDetails implements IPresenterDetails {
     private void refreshData() {
         ContactFullInfo contactFullInfo = repository.requestContactDetail(contact_id, contact_phone);
         activity.setName(contactFullInfo.getName());
+        activity.setLastUpdate(contactFullInfo.getLast_update());
         activity.setPhone(contactFullInfo.getPhoneNo());
         activity.setImageUri(contactFullInfo.getUri());
 

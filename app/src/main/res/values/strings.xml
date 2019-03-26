@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">PhoneBook</string>
-    <string name="please_grant_camera">Для работы приложения - разрешите доступ к контактам</string>
+    <string name="please_grant_camera">Для работы приложения - предоставьте разрешения</string>
     <string name="name">Имя</string>
     <string name="phone_num">Номер телефона</string>
     <string name="export">Экспорт</string>
     <string name="contact_list">Список контактов</string>
     <string name="contact_details">Подробности</string>
+    <string name="notification_export">Долго сохраняем контакты</string>
+    <string name="channel_name">Основные уведомления</string>
 </resources>

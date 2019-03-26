@@ -1,5 +1,6 @@
 package com.example.phonebook.view.presenter;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -7,6 +8,7 @@ import com.example.phonebook.App;
 import com.example.phonebook.R;
 import com.example.phonebook.controller.data.memorycache.ICacheContactList;
 import com.example.phonebook.controller.data.repository.IRepository;
+import com.example.phonebook.service.ExportService;
 import com.example.phonebook.view.presenter.adapterCallbacks.IPresenterAdapterContactsListener;
 import com.example.phonebook.model.ContactShortInfo;
 import com.example.phonebook.view.ui.activities.IViewContactList;
@@ -74,7 +76,11 @@ public class PresenterContactList implements IPresenterContactList {
 
     @Override
     public void onExportButtonClick() {
-        Log.d("log", "onExportButtonClick: Экспортируем");
+        App appContext;
+        if ((appContext = appReference.get()) != null) {
+            Intent intent = new Intent(appContext, ExportService.class);
+            appContext.startService(intent);
+        }
     }
 
     @Override

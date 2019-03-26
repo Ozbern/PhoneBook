@@ -19,8 +19,8 @@ import com.example.phonebook.view.ui.navigator.INavigator;
 
 import javax.inject.Inject;
 
-public class ActivityContactList extends ActivityBase implements IViewContactList{
-    private static final int REQUEST_CODE_CONTACTS = 1;
+public class ActivityContactList extends ActivityBase implements IViewContactList {
+    private static final int REQUEST_CODE_PERMISSION = 1;
 
     @Inject
     INavigator navigator;
@@ -41,8 +41,9 @@ public class ActivityContactList extends ActivityBase implements IViewContactLis
         App.getComponent().inject(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
-                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_CONTACTS);
+            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
         }
 
         presenterContactList.onCreate(this);
@@ -81,11 +82,13 @@ public class ActivityContactList extends ActivityBase implements IViewContactLis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_CONTACTS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                repository.request();
-            } else {
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length != 2
+                    || grantResults[0] != PackageManager.PERMISSION_GRANTED
+                    || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, R.string.please_grant_camera, Toast.LENGTH_SHORT).show();
+            } else {
+                repository.request();
             }
         }
     }

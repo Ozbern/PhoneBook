@@ -1,6 +1,7 @@
 package com.example.phonebook;
 
 import com.example.phonebook.controller.data.repository.ContactsRepository;
+import com.example.phonebook.service.ExportService;
 import com.example.phonebook.view.presenter.PresenterContactList;
 import com.example.phonebook.view.presenter.PresenterDetails;
 import com.example.phonebook.view.ui.activities.ActivityContactList;
@@ -29,4 +30,6 @@ public interface AppComponent {
     void inject(ActivityContactDetail activityContactDetail);
 
     void inject(PresenterDetails presenterDetails);
+
+    void inject(ExportService exportService);
 }

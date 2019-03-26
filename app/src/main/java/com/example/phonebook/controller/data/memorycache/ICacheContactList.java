@@ -20,4 +20,6 @@ public interface ICacheContactList {
 
     @Nullable
     ContactShortInfo getContactListItem(int position);
+
+    ArrayList<ContactShortInfo> getContactList();
 }

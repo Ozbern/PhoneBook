@@ -16,6 +16,8 @@ import com.example.phonebook.controller.data.repository.IRepository;
 import com.example.phonebook.model.Constants;
 import com.example.phonebook.view.presenter.IPresenterDetails;
 
+import java.net.URI;
+
 import javax.inject.Inject;
 
 public class ActivityContactDetail extends ActivityBase implements IViewContactDetails{
@@ -24,6 +26,7 @@ public class ActivityContactDetail extends ActivityBase implements IViewContactD
     public TextView nameText;
     public TextView phoneText;
     public ImageView imageView;
+    public TextView lastUpdate;
 
     @Inject
     IRepository repository;
@@ -59,6 +62,7 @@ public class ActivityContactDetail extends ActivityBase implements IViewContactD
         nameText = findViewById(R.id.name);
         phoneText = findViewById(R.id.phone);
         imageView = findViewById(R.id.image);
+        lastUpdate = findViewById(R.id.lastUpdate);
     }
 
     @Override
@@ -102,9 +106,14 @@ public class ActivityContactDetail extends ActivityBase implements IViewContactD
     }
 
     @Override
-    public void setImageUri(Uri uri) {
+    public void setImageUri(URI uri) {
         if (uri != null) {
-            imageView.setImageURI(uri);
+            imageView.setImageURI(Uri.parse(uri.toString()));
         }
+    }
+
+    @Override
+    public void setLastUpdate(String last_update) {
+        lastUpdate.setText(last_update);
     }
 }
