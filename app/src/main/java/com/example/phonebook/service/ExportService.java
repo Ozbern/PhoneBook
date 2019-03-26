@@ -70,7 +70,8 @@ public class ExportService extends IntentService {
     private void saveJson(ArrayList<ContactShortInfo> contactList) {
         String directoryName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + DIR_CONTACTS_NAME;
         File dir = new File(directoryName);
-        if (!dir.getParentFile().exists() && !dir.mkdirs())
+        if (!dir.getParentFile().exists()
+                || !dir.mkdirs())
             return;
         File file = new File(dir, FILE_NAME);
         try {
