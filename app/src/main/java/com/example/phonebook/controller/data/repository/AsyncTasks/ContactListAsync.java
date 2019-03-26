@@ -50,7 +50,7 @@ public class ContactListAsync extends AsyncTask<Void, Void, ArrayList<ContactSho
         ArrayList<ContactShortInfo> result = new ArrayList<ContactShortInfo>();
         ContentResolver cr = appReference.get().getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null);
+                null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC");
 
         if ((cur != null ? cur.getCount() : 0) > 0) {
             while (cur.moveToNext()) {

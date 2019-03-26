@@ -58,7 +58,7 @@ public class ContactsRepository implements IRepository {
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                new String[]{filter_id}, null);
+                new String[]{filter_id}, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC");
         ContactFullInfo result = null;
         if (pCur != null) {
             while (pCur.moveToNext()) {
