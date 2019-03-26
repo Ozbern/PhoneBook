@@ -74,7 +74,9 @@ public class ContactsRepository implements IRepository {
                         ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
                 URI uri = null;
                 try {
-                    uri = new URI(uriString);
+                    if (uriString != null) {
+                        uri = new URI(uriString);
+                    }
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
