@@ -13,9 +13,12 @@ import android.support.annotation.NonNull;
 
 import com.example.phonebook.App;
 import com.example.phonebook.controller.data.memorycache.ICacheContactList;
+import com.example.phonebook.model.ContactFullInfo;
 import com.example.phonebook.model.ContactShortInfo;
 
 import java.lang.ref.WeakReference;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class ContactListAsync extends AsyncTask<Void, Void, ArrayList<ContactShortInfo>> {
@@ -68,9 +71,16 @@ public class ContactListAsync extends AsyncTask<Void, Void, ArrayList<ContactSho
                             String phoneNo = pCur.getString(pCur.getColumnIndex(
                                     ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-                            Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long
-                                    .parseLong(id));
-                            Uri uri = Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+                            String uriString = pCur.getString(pCur.getColumnIndex(
+                                    ContactsContract.Contacts.PHOTO_URI));
+                            URI uri = null;
+                            try {
+                                if (uriString != null) {
+                                    uri = new URI(uriString);
+                                }
+                            } catch (URISyntaxException e) {
+                                e.printStackTrace();
+                            }
                             result.add(new ContactShortInfo(id, name, phoneNo, uri));
                         }
                         pCur.close();

@@ -71,7 +71,7 @@ public class ContactsRepository implements IRepository {
                 String last_update = pCur.getString(pCur.getColumnIndex(
                         ContactsContract.Contacts.CONTACT_LAST_UPDATED_TIMESTAMP));
                 String uriString = pCur.getString(pCur.getColumnIndex(
-                        ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+                        ContactsContract.Contacts.PHOTO_URI));
                 URI uri = null;
                 try {
                     if (uriString != null) {
