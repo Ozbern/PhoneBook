@@ -1,15 +1,19 @@
 package com.example.phonebook;
 
-import com.example.phonebook.controller.data.memorycache.CacheContactList;
-import com.example.phonebook.controller.data.memorycache.ICacheContactList;
-import com.example.phonebook.controller.data.repository.ContactsRepository;
-import com.example.phonebook.controller.data.repository.IRepository;
-import com.example.phonebook.view.presenter.IPresenterContactList;
-import com.example.phonebook.view.presenter.IPresenterDetails;
-import com.example.phonebook.view.presenter.PresenterContactList;
-import com.example.phonebook.view.presenter.PresenterDetails;
-import com.example.phonebook.view.ui.navigator.INavigator;
-import com.example.phonebook.view.ui.navigator.Navigator;
+import com.example.phonebook.middle_domain_2.memorycache.CacheContactList;
+import com.example.phonebook.middle_domain_2.memorycache.ICacheContactList;
+import com.example.phonebook.middle_domain_2.presenter.output_ports.IServiceHelper;
+import com.example.phonebook.middle_domain_2.repository.ContactsRepository;
+import com.example.phonebook.middle_domain_2.repository.FileStorage;
+import com.example.phonebook.middle_domain_2.repository.input_ports.IFileStorage;
+import com.example.phonebook.middle_domain_2.repository.input_ports.IRepository;
+import com.example.phonebook.middle_domain_2.presenter.input_ports.IPresenterContactList;
+import com.example.phonebook.middle_domain_2.presenter.input_ports.IPresenterDetails;
+import com.example.phonebook.middle_domain_2.presenter.PresenterContactList;
+import com.example.phonebook.middle_domain_2.presenter.PresenterDetails;
+import com.example.phonebook.middle_domain_2.presenter.output_ports.INavigator;
+import com.example.phonebook.outer_platform_dependent_1.service.ServiceHelper;
+import com.example.phonebook.outer_platform_dependent_1.ui.navigator.Navigator;
 
 import java.lang.ref.WeakReference;
 
@@ -60,5 +64,17 @@ public class AppModule {
     @Singleton
     INavigator navigator() {
         return new Navigator();
+    }
+
+    @Provides
+    @Singleton
+    IServiceHelper serviceHelper(){
+        return new ServiceHelper();
+    }
+
+    @Provides
+    @Singleton
+    IFileStorage fileStorage(){
+        return new FileStorage();
     }
 }

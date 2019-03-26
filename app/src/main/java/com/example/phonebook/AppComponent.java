@@ -1,13 +1,14 @@
 package com.example.phonebook;
 
-import com.example.phonebook.controller.data.repository.ContactsRepository;
-import com.example.phonebook.service.ExportService;
-import com.example.phonebook.view.presenter.PresenterContactList;
-import com.example.phonebook.view.presenter.PresenterDetails;
-import com.example.phonebook.view.ui.activities.ActivityContactList;
-import com.example.phonebook.view.ui.activities.ActivityContactDetail;
-import com.example.phonebook.view.ui.adapters.ContactListAdapter;
-import com.example.phonebook.view.ui.navigator.Navigator;
+import com.example.phonebook.middle_domain_2.repository.ContactsRepository;
+import com.example.phonebook.outer_platform_dependent_1.service.ExportService;
+import com.example.phonebook.middle_domain_2.presenter.PresenterContactList;
+import com.example.phonebook.middle_domain_2.presenter.PresenterDetails;
+import com.example.phonebook.outer_platform_dependent_1.service.ServiceHelper;
+import com.example.phonebook.outer_platform_dependent_1.ui.activities.ActivityContactList;
+import com.example.phonebook.outer_platform_dependent_1.ui.activities.ActivityContactDetail;
+import com.example.phonebook.outer_platform_dependent_1.ui.adapters_recycler_view.ContactListAdapter;
+import com.example.phonebook.outer_platform_dependent_1.ui.navigator.Navigator;
 
 import javax.inject.Singleton;
 
@@ -32,4 +33,6 @@ public interface AppComponent {
     void inject(PresenterDetails presenterDetails);
 
     void inject(ExportService exportService);
+
+    void inject(ServiceHelper serviceHelper);
 }
