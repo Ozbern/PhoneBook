@@ -15,6 +15,7 @@ public class App extends Application {
         super.onCreate();
         component = buildComponent();
     }
+    //1
 
     private AppComponent buildComponent() {
         return DaggerAppComponent
